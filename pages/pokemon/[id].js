@@ -6,36 +6,7 @@ import styles from "../../styles/Home.module.css";
 import { useRouter } from "next/router";
 
 // SSR
-// export async function getServerSideProps({ params }) {
-//   const resp = await fetch(
-//     `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params.id}.json`
-//   );
-
-//   return {
-//     props: {
-//       pokemon: await resp.json(),
-//     },
-//   };
-// }
-
-// to genrate the all the pages at build time we have to know what all possible ids are there
-// we have to know those ids at build time
-export async function getStaticPaths() {
-  const resp = await fetch(
-    "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
-  );
-  const pokemon = await resp.json();
-
-  return {
-    paths: pokemon.map((pokemon) => ({
-      params: { id: pokemon.id.toString() },
-    })),
-    fallback: false, // in case id value for which page is not generated, we might need a fallback page
-  };
-}
-
-// SSG
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const resp = await fetch(
     `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params.id}.json`
   );
@@ -44,9 +15,38 @@ export async function getStaticProps({ params }) {
     props: {
       pokemon: await resp.json(),
     },
-    // revalidate: 30, // as static pages generated at build time, and if after build there is some changes in data which we are getting from api in that case we can give option to check the api after 30s when user hits the page
   };
 }
+
+// to genrate the all the pages at build time we have to know what all possible ids are there
+// we have to know those ids at build time
+// export async function getStaticPaths() {
+//   const resp = await fetch(
+//     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+//   );
+//   const pokemon = await resp.json();
+
+//   return {
+//     paths: pokemon.map((pokemon) => ({
+//       params: { id: pokemon.id.toString() },
+//     })),
+//     fallback: false, // in case id value for which page is not generated, we might need a fallback page
+//   };
+// }
+
+// // SSG
+// export async function getStaticProps({ params }) {
+//   const resp = await fetch(
+//     `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params.id}.json`
+//   );
+
+//   return {
+//     props: {
+//       pokemon: await resp.json(),
+//     },
+//     // revalidate: 30, // as static pages generated at build time, and if after build there is some changes in data which we are getting from api in that case we can give option to check the api after 30s when user hits the page
+//   };
+// }
 
 export default function Details({ pokemon }) {
   // client side rendering

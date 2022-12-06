@@ -6,30 +6,30 @@ import Link from "next/link";
 // when we call this page getServerSideProps runs the first and gather all the data
 // and returns the props
 // and our page render with the props
-// export async function getServerSideProps() {
-//   const resp = await fetch(
-//     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
-//   );
-
-//   return {
-//     props: {
-//       pokemon: await resp.json(),
-//     },
-//   };
-// }
-
-// SSG
-// page will build in build time
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const resp = await fetch(
     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
   );
+
   return {
     props: {
       pokemon: await resp.json(),
     },
   };
 }
+
+// SSG
+// page will build in build time
+// export async function getStaticProps() {
+//   const resp = await fetch(
+//     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+//   );
+//   return {
+//     props: {
+//       pokemon: await resp.json(),
+//     },
+//   };
+// }
 
 export default function Home({ pokemon }) {
   // client side rendering
