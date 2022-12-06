@@ -58,7 +58,6 @@ export default function Home({ pokemon }) {
               <img
                 src={`https://jherr-pokemon.s3.us-west-1.amazonaws.com/${pokemon.image}`}
                 alt={pokemon.name}
-                loading="lazy"
               />
               <h3>{pokemon.name}</h3>
             </Link>
