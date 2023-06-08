@@ -6,30 +6,30 @@ import Link from "next/link";
 // when we call this page getServerSideProps runs the first and gather all the data
 // and returns the props
 // and our page render with the props
-export async function getServerSideProps() {
+// export async function getServerSideProps() {
+//   const resp = await fetch(
+//     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+//   );
+
+//   return {
+//     props: {
+//       pokemon1: await resp.json(),
+//     },
+//   };
+// }
+
+// SSG
+// page will build in build time
+export async function getStaticProps() {
   const resp = await fetch(
     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
   );
-
   return {
     props: {
       pokemon: await resp.json(),
     },
   };
 }
-
-// SSG
-// page will build in build time
-// export async function getStaticProps() {
-//   const resp = await fetch(
-//     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
-//   );
-//   return {
-//     props: {
-//       pokemon: await resp.json(),
-//     },
-//   };
-// }
 
 export default function Home({ pokemon }) {
   // client side rendering
@@ -64,6 +64,20 @@ export default function Home({ pokemon }) {
           </div>
         ))}
       </div>
+      {/* <h2>Pokemon List 2</h2>
+      <div className={styles.grid}>
+        {pokemon1.map((pokemon) => (
+          <div className={styles.card} key={pokemon.id + "44"}>
+            <Link href={`/pokemon/${pokemon.id}`}>
+              <img
+                src={`https://jherr-pokemon.s3.us-west-1.amazonaws.com/${pokemon.image}`}
+                alt={pokemon.name}
+              />
+              <h3>{pokemon.name}</h3>
+            </Link>
+          </div>
+        ))}
+      </div> */}
     </div>
   );
 }
